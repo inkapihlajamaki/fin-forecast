@@ -1,6 +1,6 @@
- FORECASTING FINLAND'S QUARTERLY GDP GROWTH WITH A DYNAMIC FACTOR MODEL
- Replication files
  
+ FORECASTING FINLAND'S GDP WITH A DYNAMIC FACTOR MODEL 
+  ==================================================
  Author   : Inka Pihlajamäki
  
  The empirical work builds on the ECB nowcasting toolbox of Linzenich, J., and
@@ -11,7 +11,8 @@
  benchmark and an evaluation layer have been added. Section 5 below lists
  what was changed relative to the published toolbox.
  
- 1. QUICK START
+Quick Start
+ =========
  
  1. Open MATLAB (R2022a or later).
  2. Change the current folder to the ROOT folder of this package, i.e. the
@@ -38,10 +39,10 @@
  
  Every run writes a full transcript to
  finowcast-main/nowcastFIN/logs/run_all_<timestamp>.log.
- 
-================================================================================
- 2. WHAT run_all.m DOES, STEP BY STEP
-================================================================================
+
+
+ What run_all.m does
+   =================
  
  STEP 1  'selftest'
          Runs the built-in checks of ar_benchmark.m and evaluate_forecasts.m.
@@ -111,10 +112,8 @@
  already hard-coded in Nowcast_Main_vF.m as the vector var_keep. Section 4
  explains how to re-run it if desired.
  
- 
-================================================================================
- 3. FOLDER STRUCTURE AND FILES
-================================================================================
+ Folder structure and files
+ =============
  
  ROOT FOLDER (the folder containing this file)
  ---------------------------------------------
@@ -124,11 +123,13 @@
  finowcast-main/nowcastFIN/     -- the working directory of all the code --
  ------------------------------------------------------------------------------
  MAIN PROGRAMS
+ 
  Nowcast_Main_vF.m         Toolbox main file. All user settings for the DFM are
                            at the top of this file, in the sections "0. TOOLBOX
                            SETTINGS" and "1. MODEL INPUTS"; the code below the
                            marked line should not be modified. This is the source 
                            for the specification reported in the paper.
+                           
  ar_benchmark.m            AR(p) benchmark, model (M1) of the guidelines
                            Also runs its own checks via ar_benchmark('selftest')
  evaluate_forecasts.m      Combines the DFM and AR forecasts, computes MAE and
@@ -209,16 +210,17 @@
                            each run of run_all.m.
  
  OTHER FILES
+ 
    README.md               Original toolbox README (attribution and citations
                            requested by Linzenich and Meunier)
    Preselection-FIN.xlsx   Output of the R pre-selection step: the ranking of
                            candidate indicators from which var_keep was taken.
    data_FIN_backup.xlsx    Copy of an earlier vintage of the dataset. Not read
                            by any program; kept only as a backup. 
+
  
-================================================================================
- 4. RE-RUNNING THE VARIABLE PRE-SELECTION (optional)
-================================================================================
+RE-RUNNING THE VARIABLE PRE-SELECTION (optional)
+============
  
  The pre-selection to narrow down the initial set of candidate regressors.  
  It is not part of run_all.m  because it is written in R
@@ -237,8 +239,7 @@
       paper; changing it changes the model. 
  
  
-================================================================================
- 5. WHAT WAS CHANGED RELATIVE TO THE PUBLISHED TOOLBOX
+ What was changed relative to the published toolbox
 ================================================================================
  
  The original toolbox (Linzenich and Meunier, 2024) nowcasts: it produces a
@@ -267,9 +268,7 @@
  verify_horizons.m checks the first three points: that with n_fore = 1 the
  extended code reproduces the original horizons, labels and error mapping.
  
- 
-================================================================================
- 6. REQUIREMENTS AND KNOWN CAVEATS
+ Requirements and known caveats
 ================================================================================
  
  SOFTWARE
@@ -301,8 +300,8 @@
    paper, so a full re-run should reproduce them exactly, so keep a copy first if
    you want to compare. 
  
-================================================================================
- 7. HOW THE PAPER'S TABLES AND FIGURES MAP ONTO THE OUTPUT
+
+ How the paper's tables and figures map to the output
 ================================================================================
  
  Forecast accuracy by horizon (MAE, RMSE)
@@ -321,9 +320,9 @@
      eval/FIN/comparehorizons.txt
  Raw model output, if the intermediate steps are of interest
      eval/FIN/FIN_DFM_evaluation.xlsx and eval/FIN/FIN_AR_benchmark.xlsx
+
  
-================================================================================
- 8. CITATION OF THE UNDERLYING TOOLBOX AND MODELS
+Citation
 ================================================================================
  
  Linzenich, J., and Meunier, B. (2024). "Nowcasting Made Easier: a Toolbox for
