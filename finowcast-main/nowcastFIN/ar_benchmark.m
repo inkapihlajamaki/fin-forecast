@@ -79,20 +79,7 @@ addpath('./dataset');
 [C,D] = xlsread(excel_datafile,'Quarterly');
 transf_q = C(1,:);
 seriesq  = C(5:end,:);
-% NB: the date format must match the one common_load_data uses on the same
-%     file. Change opts.date_format if you re-format the dataset.
-try
-    dt_q = datetime(D(5:end,1),'InputFormat',opts.date_format);
-catch
-    dt_q = NaT(numel(D(5:end,1)),1);
-end
-if all(isnat(dt_q))
-    error(['None of the dates in column A of the "Quarterly" sheet could be read with the format ''', ...
-           opts.date_format,'''. The first cell contains "',char(string(D{5,1})),'". ' ...
-           'Set opts.date_format to match (for example ''dd/MM/yyyy'' or ''yyyy-MM-dd''), ' ...
-           'using the same format as in common_load_data.'])
-end
-[Year_q,Month_q] = datevec(dt_q);
+[Year_q,Month_q] = common_read_dates(D(5:end,1),excel_datafile,'Quarterly',opts.date_format);
 t_q = [Year_q, Month_q];
 
 data_q = common_transform_data(seriesq,transf_q,1);
