@@ -1,0 +1,166 @@
+>> compare_horizons('./eval/FIN/FIN_DFM_evaluation.xlsx')
+
+================ HORIZON COMPARISON ================
+File: ./eval/FIN/FIN_DFM_evaluation.xlsx
+Forecasts made in month 3 of the quarter.
+
+--- Coverage of each horizon ---
+hor    rounds   target quarters        distinct
+Bac    229      2005 Q3 to 2024 Q3      77
+Now    229      2005 Q4 to 2024 Q4      77
+For    229      2006 Q1 to 2025 Q1      77
+For2   229      2006 Q2 to 2025 Q2      77
+For3   229      2006 Q3 to 2025 Q3      77
+For4   229      2006 Q4 to 2025 Q4      77
+
+Quarters covered by every horizon: 72
+
+------
+hor    n        RMSE mod   RMSE AR    sd(actual) RMSE/sd
+Bac    72       0.000      0.000      1.543      0.00
+Now    72       1.189      1.735      1.543      0.77
+For    72       1.700      1.640      1.543      1.10
+For2   72       1.653      1.626      1.543      1.07
+For3   72       1.621      1.645      1.543      1.05
+For4   72       1.667      1.648      1.543      1.08
+
+=====================================================
+
+
+>> ar_benchmark('data_FIN', struct('country','FIN'))
+
+=========== AR(p) BENCHMARK (model M1) ===========
+Target loaded: 1985 Q2 to 2026 Q1 (164 quarters)
+Lag order by BIC, pmax = 8, expanding window
+
+Origins: 2005 Q4 to 2025 Q3      Forecasts produced: 640
+
+Lag order selected (BIC):
+   p = 1 in 20 of 80 origins (25%)
+   p = 3 in 60 of 80 origins (75%)
+
+RMSE / MAE over all origins with a realised target:
+model          h    n        RMSE       MAE
+AR direct      1    80       1.618      0.980
+AR direct      2    80       1.545      0.915
+AR direct      3    79       1.538      0.942
+AR direct      4    78       1.619      0.984
+AR iterative   1    80       1.618      0.980
+AR iterative   2    80       1.559      0.925
+AR iterative   3    79       1.548      0.953
+AR iterative   4    78       1.689      1.008
+
+Written to ./eval/FIN/FIN_AR_benchmark.xlsx
+==================================================
+
+
+ans =
+
+  640×10 table
+
+    origin_year    origin_quarter    h    target_year    target_quarter         model          p    forecast    actual      error  
+    ___________    ______________    _    ___________    ______________    ________________    _    ________    _______    ________
+
+       2005              4           1       2006              1           {'AR direct'   }    3    0.16555      2.5103      2.3447
+       2005              4           1       2006              1           {'AR iterative'}    3    0.16555      2.5103      2.3447
+       2005              4           2       2006              2           {'AR direct'   }    3    0.81964     0.15218    -0.66746
+       2005              4           2       2006              2           {'AR iterative'}    3    0.93691     0.15218    -0.78473
+       2005              4           3       2006              3           {'AR direct'   }    3     0.5751     0.95201      0.3769
+
+         :               :           :         :               :                  :            :       :           :          :    
+
+       2025              3           2       2026              1           {'AR iterative'}    3    0.24061     0.88888     0.64827
+       2025              3           3       2026              2           {'AR direct'   }    3    0.26197         NaN         NaN
+       2025              3           3       2026              2           {'AR iterative'}    3    0.24483         NaN         NaN
+       2025              3           4       2026              3           {'AR direct'   }    3     0.4025         NaN         NaN
+       2025              3           4       2026              3           {'AR iterative'}    3    0.33999         NaN         NaN
+
+	Display all 640 rows.
+
+>> evaluate_forecasts('./eval/FIN/FIN_DFM_evaluation.xlsx', ...
+                   './eval/FIN/FIN_AR_benchmark.xlsx', ...
+                   struct('country','FIN','gdp_rel',2,'mth_of_q',3))
+
+============ FORECAST EVALUATION ============
+DFM file : ./eval/FIN/FIN_DFM_evaluation.xlsx
+AR file  : ./eval/FIN/FIN_AR_benchmark.xlsx
+Origins fixed at month 3 of the quarter; h defined against the last observed quarter.
+Target window requested: 2006Q1 to 2025Q4
+
+--- Coverage ---
+model            h      n      target quarters
+DFM              1      76     2006Q1 to 2024Q4
+DFM              2      77     2006Q1 to 2025Q1
+DFM              3      77     2006Q2 to 2025Q2
+DFM              4      77     2006Q3 to 2025Q3
+AR direct        1      80     2006Q1 to 2025Q4
+AR direct        2      79     2006Q2 to 2025Q4
+AR direct        3      78     2006Q3 to 2025Q4
+AR direct        4      77     2006Q4 to 2025Q4
+AR iterative     1      80     2006Q1 to 2025Q4
+AR iterative     2      79     2006Q2 to 2025Q4
+AR iterative     3      78     2006Q3 to 2025Q4
+AR iterative     4      77     2006Q4 to 2025Q4
+
+--- Common sample check ---
+Target quarters at h=1 shared by all models: 76
+
+--- MAE and RMSE by horizon (all targets) ---
+model            h    n      MAE       RMSE      RMSE/sd
+DFM              1    76     0.803     1.171     0.77
+DFM              2    77     0.971     1.655     1.09
+DFM              3    77     0.960     1.602     1.07
+DFM              4    77     0.937     1.570     1.05
+AR direct        1    80     0.980     1.618     1.09
+AR direct        2    79     0.918     1.553     1.05
+AR direct        3    78     0.947     1.547     1.04
+AR direct        4    77     0.991     1.629     1.09
+AR iterative     1    80     0.980     1.618     1.09
+AR iterative     2    79     0.928     1.567     1.06
+AR iterative     3    78     0.958     1.557     1.05
+AR iterative     4    77     1.014     1.698     1.14
+
+--- MAE and RMSE by horizon (excluding 2020) ---
+model            h    n      MAE       RMSE     
+DFM              1    72     0.749     1.068    
+DFM              2    73     0.828     1.308    
+DFM              3    73     0.829     1.306    
+DFM              4    73     0.811     1.269    
+AR direct        1    76     0.825     1.258    
+AR direct        2    75     0.774     1.236    
+AR direct        3    74     0.819     1.241    
+AR direct        4    73     0.870     1.349    
+AR iterative     1    76     0.825     1.258    
+AR iterative     2    75     0.782     1.252    
+AR iterative     3    74     0.830     1.252    
+AR iterative     4    73     0.894     1.432    
+
+Written to .\eval\FIN\forecast_evaluation.xlsx
+Figures written to ./figures/
+=============================================
+
+
+ans =
+
+  935×9 table
+
+    origin_year    origin_quarter    h    target_year    target_quarter         model          forecast     actual      error  
+    ___________    ______________    _    ___________    ______________    ________________    ________    ________    ________
+
+       2005              4           1       2006              1           {'DFM'         }     1.1025       2.5103      1.4078
+       2006              1           1       2006              2           {'DFM'         }    0.58573      0.15218    -0.43355
+       2006              2           1       2006              3           {'DFM'         }     1.3371      0.95201    -0.38512
+       2006              3           1       2006              4           {'DFM'         }     0.7637      0.83349     0.06979
+       2006              4           1       2007              1           {'DFM'         }     1.1813       1.9621     0.78077
+
+         :               :           :         :               :                  :               :           :           :    
+
+       2025              2           1       2025              3           {'AR iterative'}    0.23553     -0.06566    -0.30119
+       2025              2           2       2025              4           {'AR direct'   }    0.32268      0.45081     0.12813
+       2025              2           2       2025              4           {'AR iterative'}    0.31427      0.45081     0.13654
+       2025              3           1       2025              4           {'AR direct'   }    0.29893      0.45081     0.15188
+       2025              3           1       2025              4           {'AR iterative'}    0.29893      0.45081     0.15188
+
+	Display all 935 rows.
+
+>> 

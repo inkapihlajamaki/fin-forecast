@@ -1,0 +1,9 @@
+>> compare_horizons('./eval/FIN/FIN_DFM_evaluation_b2_1.xlsx', 3)
+
+hor    n        RMSE mod   RMSE AR    sd(actual) RMSE/sd
+Bac    24       0.000      0.000      1.877      0.00
+Now    24       1.521      2.091      1.877      0.81
+For    24       2.202      1.892      1.877      1.17
+For2   24       2.032      1.877      1.877      1.08
+For3   24       1.885      1.887      1.877      1.00
+For4   24       1.979      1.885      1.877      1.05
