@@ -125,6 +125,9 @@ Quick Start
  run_all.m             Is the Master file. It runs everything in order.
  
  finowcast-main/       Contains the code and data (see below)
+
+ originaltoolboxreadme.md Original toolbox README (attribution and citations
+                          requested by Linzenich and Meunier)
  
  finowcast-main/nowcastFIN/     -- the working directory of all the code --
  ------------------------------------------------------------------------------
@@ -255,12 +258,10 @@ Quick Start
  OTHER FILES
  ----------
  
-   README.md               Original toolbox README (attribution and citations
-                           requested by Linzenich and Meunier)
    Preselection-FIN.xlsx   Output of the R pre-selection step: the ranking of
                            candidate indicators from which var_keep was taken.
-   data_FIN_backup.xlsx    Copy of an earlier vintage of the dataset. Not read
-                           by any program; kept only as a backup. 
+                           
+   data_FIN_backup.xlsx    Copy of an earlier vintage of the dataset for backup purposes.
 
  
 Re-running variable pre-selection (optional)
