@@ -85,9 +85,9 @@ common_CheckDataAvailability(full_names);
 
 %% Convert dates
 
-[Year_m, Month_m] = datevec(datetime(B(5:end,1), 'InputFormat', 'dd.MM.yyyy'));
+[Year_m, Month_m] = common_read_dates(B(5:end,1), excel_datafile, mon_freq);
 t_m = [Year_m, Month_m];
-[Year_q, Month_q] = datevec(datetime(D(5:end,1), 'InputFormat', 'dd.MM.yyyy'));
+[Year_q, Month_q] = common_read_dates(D(5:end,1), excel_datafile, quar_freq);
 t_q = [Year_q, Month_q];
         
 
