@@ -1,7 +1,5 @@
-================================================================================
  FORECASTING FINLAND'S QUARTERLY GDP GROWTH WITH A DYNAMIC FACTOR MODEL
  Replication files
-================================================================================
  
  Author   : Inka Pihlajamäki
  
@@ -13,9 +11,7 @@
  benchmark and an evaluation layer have been added. Section 5 below lists
  what was changed relative to the published toolbox.
  
-================================================================================
  1. QUICK START
-================================================================================
  
  1. Open MATLAB (R2022a or later).
  2. Change the current folder to the ROOT folder of this package, i.e. the
