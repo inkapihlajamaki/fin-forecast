@@ -155,9 +155,7 @@ for (jj in 1:ncol(temp)){
 }
 
 # Import quarterly data in levels
-data_qtr_init <- read_excel(paste0("./nowcastFIN/dataset/data_",country,".xlsx"),
-                            sheet="Quarterly",
-                            col_names = FALSE)
+data_qtr_init <- read_excel(paste0("./dataset/data_",country,".xlsx")
 
 transfo_qtr <- head(data_qtr_init,1)[-1]      # drop first column (should be NA) because are dates
 groups_qtr <- data_qtr_init[2,][-1]           # drop first column (should be NA) because are dates
