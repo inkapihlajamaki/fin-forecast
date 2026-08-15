@@ -45,6 +45,7 @@ Quick Start
    =================
  
  STEP 1  'selftest'
+ 
          Runs the built-in checks of ar_benchmark.m and evaluate_forecasts.m.
          They work on simulated data with a known answer: the AR estimator is
          checked against a simulated AR(2), and the horizon mapping, the
@@ -54,6 +55,7 @@ Quick Start
          Runs in a few seconds.
  
  STEP 2  'dfm'   -> Nowcast_Main_vF.m
+ 
          The dynamic factor model. Runs the toolbox in evaluation mode
          (do_eval = 1, do_loop = 0, n_fore = 4), which walks through the
          evaluation sample month by month, re-estimates the DFM on the
@@ -70,6 +72,7 @@ Quick Start
          Runs in several hours.
  
  STEP 3  'ar'    -> ar_benchmark.m
+ 
          The AR(p) benchmark, estimated on the same target series 
          as the DFM but otherwise fully independent of the toolbox. 
          At every forecast origin the lag order is re-selected by
@@ -80,6 +83,7 @@ Quick Start
          Runs in under a minute.
  
  STEP 4  'eval'  -> evaluate_forecasts.m
+ 
          Puts the DFM and the AR forecasts on the same footing and scores them.
          The toolbox labels horizons relative to the nowcast quarter, while the
          guidelines define h relative to the last OBSERVED quarter; this step
@@ -95,6 +99,7 @@ Quick Start
          Runs in a few seconds.
  
  STEP 5  'compare' -> compare_horizons.m
+ 
          A robustness check. Over a fixed window of real-time months each
          horizon scores a different set of target quarters, so the RMSE columns
          of the evaluation file are not directly comparable. This step restricts
@@ -117,99 +122,138 @@ Quick Start
  
  ROOT FOLDER (the folder containing this file)
  ---------------------------------------------
- run_all.m             MASTER FILE. Runs everything in order.
- finowcast-main/       The code and data (see below)
+ run_all.m             Is the Master file. It runs everything in order.
+ 
+ finowcast-main/       Contains the code and data (see below)
  
  finowcast-main/nowcastFIN/     -- the working directory of all the code --
  ------------------------------------------------------------------------------
  MAIN PROGRAMS
- 
- Nowcast_Main_vF.m         Toolbox main file. All user settings for the DFM are
-                           at the top of this file, in the sections "0. TOOLBOX
-                           SETTINGS" and "1. MODEL INPUTS"; the code below the
-                           marked line should not be modified. This is the source 
-                           for the specification reported in the paper.
+ -------------
+ Nowcast_Main_vF.m         
+                Toolbox main file. All user settings for the DFM are
+                at the top of this file, in the sections "0. TOOLBOX
+                SETTINGS" and "1. MODEL INPUTS"; the code below the
+                marked line should not be modified. This is the source 
+                for the specification reported in the paper.
                            
- ar_benchmark.m            AR(p) benchmark, model (M1) of the guidelines
-                           Also runs its own checks via ar_benchmark('selftest')
- evaluate_forecasts.m      Combines the DFM and AR forecasts, computes MAE and
-                           RMSE by horizon and subsample, and draws the figures
-                           Also runs evaluate_forecasts('selftest')
- compare_horizons.m        Compares horizons on a common set of target quarters
- Variable_selection_vF.R   Variable pre-selection in R
+ ar_benchmark.m
+               AR(p) benchmark, model (M1) of the guidelines. 
+               Also runs its own checks via ar_benchmark('selftest').
  
+ evaluate_forecasts.m      
+ Combines the DFM and AR forecasts, computes MAE and
+ RMSE by horizon and subsample, and draws the figures
+ Also runs evaluate_forecasts('selftest')
+ 
+ compare_horizons.m        Compares horizons on a common set of target quarters
+ 
+ Variable_selection_vF.R   Runs variable pre-selection in R
+
  DIAGNOSTICS (not needed to reproduce the results; kept for transparency)
+ -----------
    verify_horizons.m       Checks that the multi-horizon extension reproduces
                            the original toolbox exactly when n_fore = 1. NB:
                            written in Octave syntax (printf, functions defined
                            inside a script); run it with Octave, not MATLAB.
+                           
    diagnose_dates.m        Prints the date alignment of the input data, used
                            while checking the real-time information sets.
+                           
    diagnose_forecast_alignment.m
                            Checks that forecasts and realisations are matched to
                            the right target quarter, and compares against naive
                            benchmarks.
+
+ DATA
+ ----
  
  dataset/
    data_FIN.xlsx           THE INPUT DATASET
+   
                            Sheets:
+                           
                              Readme     - notes on the sources
+                             
                              Monthly    - 21 monthly indicators, 1985M1 onward
                                           Row 1 = transformation code, row 2 =
                                           group, row 3 = short name, row 4 =
                                           full source description, row 5 on =
-                                          data, column A = dates.
+                                          data, column A = dates
+                                          
                              Quarterly  - 8 quarterly indicators plus the target
                                           (last column), same layout, 1985Q1 onward
+                                          
                              Groups     - names of the variable groups
+                             
                              blocks     - block structure of the factor model (not used in this case)
                              
    data_Example1.xlsx      Example dataset shipped with the original toolbox.
-                           Not used in the paper; kept so that the toolbox's own
-                           example still runs.
- 
+                           Not used in the paper; kept so that the toolbox's own example still runs.
+                           
+ TOOLS
+ -----
  tools/                    Function library, 69 files. Not to be edited.
+ 
    common_*.m              Shared routines: data loading and transformation
                            (common_load_data, common_transform_data,
                            common_read_dates), the out-of-sample evaluation
                            engine (common_eval_models), the horizon helper
                            (common_horizons), Covid and outlier handling,
                            Excel writing, and the news and range utilities.
+                           
    DFM_*.m                 Dynamic factor model: EM estimation (DFM_estimate,
                            DFM_EMstep, DFM_InitCond), the Kalman filter and
                            smoother (DFM_runKF), and the news decomposition.
+                           
    AR_estimate_forecast.m  AR(p) estimation with BIC/AIC lag selection and both
                            direct and iterative h-step forecasts. Written for
                            this paper.
+                           
    BEQ_*.m, BVAR_*.m       Bridge-equation and Bayesian VAR models of the
                            original toolbox. Not used in the paper (the model is
                            set to 'DFM'), kept so that the toolbox is complete
                            and the alternative models remain available.
+                           
+ EVALUATION
+ ----------
  
  eval/FIN/                 Results of the evaluation.
+ 
  FIN_DFM_evaluation.xlsx   Output of step 2 (DFM forecasts by horizon).
+ 
  FIN_AR_benchmark.xlsx     Output of step 3 (AR forecasts).
+ 
  forecast_evaluation.xlsx  Output of step 4 (all forecasts and the metrics).
+ 
  comparehorizons.txt       Output of step 5.
+ 
  old/                      Earlier runs kept for reference: the model-selection
                            loops (FIN_DFM_evaluation_b1_1 to b1_5, b2_1, b2_2,
                            FIN_DFM_loop_b1) over which the specification was
                            chosen. Not used by run_all.m
- 
+                           
+ FIGURES
+ ------
  figures/
    forecast_errors_by_horizon.png  Distribution of forecast errors by horizon.
    accuracy_by_horizon.png         RMSE and MAE against the horizon.
                            Both are overwritten by step 4 and are the versions
                            included in the paper.
- 
+
+ OUTPUT
+ ------
  output/                   Written by the toolbox in nowcasting mode
                            (do_eval = 0), which the paper does not use.
                            output/Example1/ holds the original toolbox example.
- 
+
+ LOGS
+ ---
  logs/                     Created on the first run; holds the transcript of
                            each run of run_all.m.
  
  OTHER FILES
+ ----------
  
    README.md               Original toolbox README (attribution and citations
                            requested by Linzenich and Meunier)
@@ -219,7 +263,7 @@ Quick Start
                            by any program; kept only as a backup. 
 
  
-RE-RUNNING THE VARIABLE PRE-SELECTION (optional)
+Re-running variable pre-selection (optional)
 ============
  
  The pre-selection to narrow down the initial set of candidate regressors.  
@@ -304,22 +348,20 @@ RE-RUNNING THE VARIABLE PRE-SELECTION (optional)
  How the paper's tables and figures map to the output
 ================================================================================
  
- Forecast accuracy by horizon (MAE, RMSE)
-     eval/FIN/forecast_evaluation.xlsx, sheet 'metrics'. One row per model,
-     horizon and subsample; the subsamples are 'all', 'pre-Covid (<2020)',
-     'Covid (2020)', 'post-Covid (>2020)' and 'excl. Covid'.
- Every individual forecast behind those numbers
-     eval/FIN/forecast_evaluation.xlsx, sheet 'forecasts'. One row per model,
-     forecast origin and horizon, with the forecast, the realisation and the
-     error.
- Distribution of forecast errors
-     figures/forecast_errors_by_horizon.png
- Accuracy against the horizon
-     figures/accuracy_by_horizon.png
- Common-sample check across horizons
-     eval/FIN/comparehorizons.txt
- Raw model output, if the intermediate steps are of interest
-     eval/FIN/FIN_DFM_evaluation.xlsx and eval/FIN/FIN_AR_benchmark.xlsx
+ Forecast accuracy by horizon (MAE, RMSE): eval/FIN/forecast_evaluation.xlsx, sheet 'metrics'. One row per model,
+                                           horizon and subsample; the subsamples are 'all', 'pre-Covid (<2020)',
+                                           'Covid (2020)', 'post-Covid (>2020)' and 'excl. Covid'.
+     
+ Every individual forecast behind those numbers:  eval/FIN/forecast_evaluation.xlsx, sheet 'forecasts'. One row per model,
+                                                  forecast origin and horizon, with the forecast, the realisation and the error.
+     
+ Distribution of forecast errors: figures/forecast_errors_by_horizon.png
+     
+ Accuracy against the horizon: figures/accuracy_by_horizon.png
+ 
+ Common-sample check across horizons: eval/FIN/comparehorizons.txt
+ 
+ Raw model output, if the intermediate steps are of interest:  eval/FIN/FIN_DFM_evaluation.xlsx and eval/FIN/FIN_AR_benchmark.xlsx
 
  
 Citation
